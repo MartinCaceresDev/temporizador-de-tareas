@@ -34,6 +34,17 @@ export const Task = ({
     if (isActiveTimer) {
       timer = setInterval(() => {
         intervalHandler(setSecondsTime, setIsActiveTimer, setCounterFinished, setAlertActive, speechAlertOn, speechAlert);
+        updateTaskInStorage(tasks, speechAlertOn, {
+          taskId,
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          initialHours,
+          initialMinutes,
+          initialSeconds,
+          activeTimer: false,
+          title
+        });
       }, 1000)
     } else {
       updateTaskInStorage(tasks, speechAlertOn, {
@@ -46,7 +57,7 @@ export const Task = ({
         initialSeconds,
         activeTimer: false,
         title
-      })
+      });
     }
     return () => clearInterval(timer);
   }, [isActiveTimer])
