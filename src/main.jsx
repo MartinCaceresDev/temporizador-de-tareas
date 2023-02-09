@@ -4,10 +4,10 @@ import App from './App'
 import { TasksContextProvider } from './Context/TasksContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <TasksContextProvider>
       <App />
     </TasksContextProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 )
 

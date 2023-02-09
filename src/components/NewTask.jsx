@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from 'uuid';
 import CloseIcon from '@mui/icons-material/Close';
-import { useTasksContext } from "../hooks/useTasksContext"
+import { useTasksContext } from "../hooks"
 
 
 export const NewTask = () => {

@@ -7,7 +7,6 @@ export const taskReducer = (state, { type, payload }) => {
 			};
 
 		case 'UPDATE_FROM_STORAGE':
-			console.log('update from storage reducer, payload', payload);
 			return {
 				...state,
 				tasks: payload?.tasks || [],

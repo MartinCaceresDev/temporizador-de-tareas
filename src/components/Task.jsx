@@ -1,88 +1,107 @@
 import { useState, useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useTasksContext } from "../hooks/useTasksContext";
-import { calculateTime, speechAlert } from "../utils";
+import { useTasksContext } from "../hooks";
+import { calculateTime, initialSecondsTime, intervalHandler, speechAlert, updateTaskInStorage } from "../utils";
 import { Alert, TaskButtons } from './'
 
 
 export const Task = ({
-  title, initialHours, initialMinutes, initialSeconds,
-  hours: hoursLS, minutes: minutesLS, seconds: secondsLS,
-  taskId, activeTimer
+  title, initialHours, initialMinutes, initialSeconds, taskId,
+  hours: hoursLS, minutes: minutesLS, seconds: secondsLS, activeTimer
 }) => {
-
-  const initialSecondsTime = (value) => {
-    if (value) {
-      return (value.initialHours * 3600) + (value.initialMinutes * 60) + value.initialSeconds;
-    } else if (!value) {
-      return (hoursLS * 3600) + (minutesLS * 60) + secondsLS;
-    }
-  }
 
   const [hours, setHours] = useState(hoursLS !== initialHours ? hoursLS : initialHours);
   const [minutes, setMinutes] = useState(minutesLS !== initialMinutes ? minutesLS : initialMinutes);
   const [seconds, setSeconds] = useState(secondsLS !== initialSeconds ? secondsLS : initialSeconds);
+
   const [isActiveTimer, setIsActiveTimer] = useState(activeTimer);
-  const [secondsTime, setSecondsTime] = useState(() => initialSecondsTime());
-  const [counterFinished, setCounterFinished] = useState(() => !initialSecondsTime() ? true : false);
-  const [alertActive, setAlertActive] = useState(false)
+  const [alertActive, setAlertActive] = useState(false);
 
-  const { deleteTask, editTask, speechAlertOn, updateTaskInStorage, creatingTask } = useTasksContext();
+  const [secondsTime, setSecondsTime] = useState({
+    present: Math.floor((Date.now() / 1000)),
+    sec: initialSecondsTime(null, hoursLS, minutesLS, secondsLS)
+  });
 
-  // UPDATE SECONDS
+  const [counterFinished, setCounterFinished] = useState(
+    () => !initialSecondsTime(null, hoursLS, minutesLS, secondsLS) ? true : false);
+
+  const { deleteTask, editTask, speechAlertOn, creatingTask, tasks } = useTasksContext();
+
+  // UPDATE TOTAL SECONDS
   let timer;
   useEffect(() => {
     if (isActiveTimer) {
       timer = setInterval(() => {
-        setSecondsTime(prev => {
-          if (prev) {
-            return prev - 1
-          } else {
-            setIsActiveTimer(false)
-            setCounterFinished(true);
-            setAlertActive(true)
-            speechAlertOn && speechAlert(true);
-            return 0;
-          }
-        })
+        intervalHandler(setSecondsTime, setIsActiveTimer, setCounterFinished, setAlertActive, speechAlertOn, speechAlert);
       }, 1000)
+    } else {
+      updateTaskInStorage(tasks, speechAlertOn, {
+        taskId,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        initialHours,
+        initialMinutes,
+        initialSeconds,
+        activeTimer: false,
+        title
+      })
     }
     return () => clearInterval(timer);
   }, [isActiveTimer])
 
-  const updateTask = () => {
-    const { hour, minute, second } = calculateTime(secondsTime);
-    setHours(hour);
-    setMinutes(minute);
-    setSeconds(second);
-    updateTaskInStorage({
+  // TOTAL SECONDS TO NORMAL TIME
+  useEffect(() => {
+    if (isActiveTimer) {
+      const { hour, minute, second } = calculateTime(secondsTime.sec);
+      setHours(hour);
+      setMinutes(minute);
+      setSeconds(second);
+      updateTaskInStorage(tasks, speechAlertOn, {
+        taskId,
+        hours: hour,
+        minutes: minute,
+        seconds: second,
+        initialHours,
+        initialMinutes,
+        initialSeconds,
+        activeTimer: isActiveTimer,
+        title
+      });
+    }
+  }, [secondsTime.sec, isActiveTimer, creatingTask, alertActive]);
+
+  // START, PAUSE, CONTINUE BUTTON
+  const onTimerClick = () => {
+    if (isActiveTimer) {
+      setIsActiveTimer(false);
+      setSecondsTime({ ...secondsTime, present: 0 })
+    } else {
+      setIsActiveTimer(true);
+      setSecondsTime({ ...secondsTime, present: 0 })
+    }
+    updateTaskInStorage(tasks, speechAlertOn, {
       taskId,
-      hours: hour,
-      minutes: minute,
-      seconds: second,
+      hours,
+      minutes,
+      seconds,
       initialHours,
       initialMinutes,
       initialSeconds,
-      activeTimer: isActiveTimer,
+      activeTimer: !isActiveTimer,
       title
     });
   };
 
-  // SECONDS TO NORMAL TIME
-  useEffect(() => {
-    updateTask();
-  }, [secondsTime, isActiveTimer, creatingTask]);
-
-  const onTimerClick = () => isActiveTimer ? setIsActiveTimer(false) : setIsActiveTimer(true);
-
+  // RESET BUTTON
   const onResetTime = () => {
     setIsActiveTimer(false);
     setCounterFinished(false);
     setHours(initialHours);
     setMinutes(initialMinutes);
     setSeconds(initialSeconds);
-    updateTaskInStorage({
+    updateTaskInStorage(tasks, speechAlertOn, {
       taskId,
       hours: initialHours,
       minutes: initialMinutes,
@@ -93,7 +112,7 @@ export const Task = ({
       isActiveTimer: false,
       title
     });
-    setSecondsTime(() => initialSecondsTime({ initialHours, initialMinutes, initialSeconds }));
+    setSecondsTime({ present: 0, sec: initialSecondsTime({ initialHours, initialMinutes, initialSeconds }) });
   };
 
   const onTaskDelete = () => deleteTask(taskId);

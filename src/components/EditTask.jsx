@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { useTasksContext } from "../hooks/useTasksContext"
+import { useTasksContext } from "../hooks"
+import { updateTaskInStorage } from "../utils";
 
 
 export const EditTask = () => {
 
-  const { updateTask, editingTaskData: data, editTask } = useTasksContext();
+  const { editingTaskData: data, editTask, tasks, speechAlertOn, updateTask } = useTasksContext();
   const [title, setTitle] = useState(data?.title);
   const [initialHours, setInitialHours] = useState(data?.hours);
   const [initialMinutes, setInitialMinutes] = useState(data?.minutes);
