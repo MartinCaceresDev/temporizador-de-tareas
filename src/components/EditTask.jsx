@@ -6,7 +6,7 @@ import { updateTaskInStorage } from "../utils";
 
 export const EditTask = () => {
 
-  const { editingTaskData: data, editTask, tasks, speechAlertOn, updateTask } = useTasksContext();
+  const { editingTaskData: data, editTask, updateTask } = useTasksContext();
   const [title, setTitle] = useState(data?.title);
   const [initialHours, setInitialHours] = useState(data?.hours);
   const [initialMinutes, setInitialMinutes] = useState(data?.minutes);
@@ -27,7 +27,7 @@ export const EditTask = () => {
   };
 
   const onSaveTask = () => {
-    if (title && initialHours || initialMinutes) {
+    if (title && (initialHours || initialMinutes)) {
       const updatedTask = {
         title,
         initialHours: initialHours || 0,
