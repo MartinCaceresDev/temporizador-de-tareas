@@ -44,7 +44,6 @@ export const TasksContextProvider = ({ children }) => {
     handleLocalStorage({ tasks: tempTasks, speechAlertOn: state.speechAlertOn });
   };
 
-
   const deleteTask = (taskId) => {
     const tasksForDelete = state.tasks.filter((task) => task.taskId !== taskId);
     handleLocalStorage({ tasks: tasksForDelete, speechAlertOn: state.speechAlertOn });

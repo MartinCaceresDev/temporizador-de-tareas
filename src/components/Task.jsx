@@ -36,9 +36,9 @@ export const Task = ({
         intervalHandler(setSecondsTime, setIsActiveTimer, setCounterFinished, setAlertActive, speechAlertOn, speechAlert);
         updateTaskInStorage(tasks, speechAlertOn, {
           taskId,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
+          hours,
+          minutes,
+          seconds,
           initialHours,
           initialMinutes,
           initialSeconds,
@@ -49,9 +49,9 @@ export const Task = ({
     } else {
       updateTaskInStorage(tasks, speechAlertOn, {
         taskId,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds,
+        hours,
+        minutes,
+        seconds,
         initialHours,
         initialMinutes,
         initialSeconds,
