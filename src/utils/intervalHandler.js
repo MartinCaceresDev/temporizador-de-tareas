@@ -11,9 +11,6 @@ export const intervalHandler = (
       setCounterFinished(true);
       setAlertActive(true)
       speechAlertOn && speechAlert(true);
-
-      
-
       return { ...prev, sec: 0 };
     }
   })

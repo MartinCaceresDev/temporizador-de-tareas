@@ -39,8 +39,8 @@ export const NewTask = () => {
         initialHours: initialHours || 0,
         initialMinutes: initialMinutes || 0,
         initialSeconds: 0,
-        hours: initialHours,
-        minutes: initialMinutes,
+        hours: initialHours || 0,
+        minutes: initialMinutes || 0,
         seconds: 0,
         taskId: uuid(),
         activeTimer: false
