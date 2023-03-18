@@ -165,7 +165,10 @@ export const Task = ({
         <span
           className='text-white mb-4 mt-2 text-center text-2xl'
         >
-          {`${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 0 ? '00' : seconds < 10 ? '0' + seconds : seconds}`}
+          {`${hours < 10
+            ? '0' + hours : hours}:${minutes < 0
+              ? '00' : minutes < 10 ? '0' + minutes : minutes}:${seconds < 0
+                ? '00' : seconds < 10 ? '0' + seconds : seconds}`}
         </span>
 
         {/* BUTTONS */}
