@@ -24,7 +24,7 @@ export const TaskButtons = ({ utils }) => {
       <button
         className={`cursor-pointer rounded-lg border-black select-none border border-opacity-50 py-2 w-full hover:bg-blue-800 bg-blue-600 transition-all text-white font-medium`}
         onClick={onTimerClick}
-        disabled={counterFinished}
+        disabled={hours <= 0 && minutes <= 0 && seconds <= 0}
       >
         {isActiveTimer
           ? 'Pausar'
