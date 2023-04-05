@@ -1,12 +1,10 @@
 import { createContext, useReducer } from 'react';
 import { taskReducer, actions, initialState, handleLocalStorage, updateFromLocalStorage } from '../utils';
 
+// useReducer init function - gets data from local storage
 const init = () => {
   const { tasks, speechAlertOn } = handleLocalStorage();
-  return {
-    tasks,
-    speechAlertOn
-  }
+  return { tasks, speechAlertOn }
 };
 
 export const TasksContext = createContext();
@@ -34,6 +32,7 @@ export const TasksContextProvider = ({ children }) => {
   const updateTask = (task) => {
     const taskCopy = state.tasks.concat();
     let tempTasks = []
+    // iterate and update the correct task
     taskCopy.forEach(taskItem => {
       if (taskItem.taskId === task.taskId) {
         taskItem = { ...task };

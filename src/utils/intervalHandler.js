@@ -1,5 +1,17 @@
+/**
+ * 
+ * @param {Function} setSecondsTime 
+ * @param {Function} setIsActiveTimer 
+ * @param {Function} setAlertActive 
+ * @param {Boolean} speechAlertOn 
+ * @param {Function} speechAlert 
+ * @returns {Void} (Void) Updates secondsTime state.
+ */
+
+import { speechAlert } from "./";
+
 export const intervalHandler = (
-  setSecondsTime, setIsActiveTimer, setCounterFinished, setAlertActive, speechAlertOn, speechAlert
+  setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn
 )=>{
   setSecondsTime(prev => {
     if (prev.sec > 0) {
@@ -8,7 +20,6 @@ export const intervalHandler = (
       return { sec: prev.sec - difference, present: presentTime };
     } else if (prev.sec <= 0) {
       setIsActiveTimer(false)
-      setCounterFinished(true);
       setAlertActive(true)
       speechAlertOn && speechAlert(true);
       return { ...prev, sec: 0 };
