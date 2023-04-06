@@ -143,7 +143,7 @@ export const Task = ({
       {/* display alert when time is finished */}
       {alertActive && <Alert setAlertActive={setAlertActive} title={title} />}
 
-      <div className={`flex flex-col border rounded p-2 items-center relative ${(hours <= 0 && minutes <= 0 && seconds <= 0) && 'bg-green-900/90'}`}>
+      <div className={`bg-stone-900 flex flex-col border rounded p-2 items-center relative ${(hours <= 0 && minutes <= 0 && seconds <= 0) && 'bg-green-900/90'}`}>
         <div className='flex justify-between w-full'>
 
           {/* edit icon */}

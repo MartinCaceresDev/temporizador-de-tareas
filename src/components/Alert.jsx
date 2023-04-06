@@ -1,10 +1,10 @@
 import { speechAlert } from "../utils";
 
-export const Alert = ({ setAlertActive, title }) => {
+export const Alert = ({ setAlertActive }) => {
 
   const handleAlerts = () => {
     setAlertActive(false);
-    speechAlert(false);
+    speechAlert(false, title);
   }
 
   return (

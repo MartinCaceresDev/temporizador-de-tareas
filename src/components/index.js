@@ -7,3 +7,5 @@ export * from './EditTask';
 export * from './UpdatingPWA';
 export * from './Alert';
 export * from './TaskButtons';
+export * from './TasksContainerD&D';
+export * from './StrictModeDroppable';

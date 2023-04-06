@@ -49,6 +49,11 @@ export const TasksContextProvider = ({ children }) => {
     dispatch({ type: actions.deleteTask, payload: tasksForDelete });
   };
 
+  const reorderTasks = (tasks) => {
+    handleLocalStorage({ tasks, speechAlertOn: state.speechAlertOn })
+    dispatch({ type: actions.reorderTasks, payload: tasks })
+  };
+
   const toggleSpeechAlert = () => {
     updateFromLocalStorage(dispatch);
     handleLocalStorage({ tasks: state.tasks, speechAlertOn: !state.speechAlertOn });
@@ -57,7 +62,7 @@ export const TasksContextProvider = ({ children }) => {
 
   return (
     <TasksContext.Provider value={
-      { toggleCreatingTask, addNewTask, editTask, updateTask, deleteTask, toggleSpeechAlert, dispatch, ...state }
+      { toggleCreatingTask, addNewTask, editTask, updateTask, deleteTask, toggleSpeechAlert, reorderTasks, dispatch, ...state }
     }>
       <div className='relative'>
         {children}
