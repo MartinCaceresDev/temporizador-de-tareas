@@ -176,12 +176,12 @@ export const Task = ({
 
         {/* Move left button */}
         <span onClick={() => moveTask(taskId, 'left')} className='absolute cursor-pointer flex justify-center left-1 top-1/2 -translate-y-1/2'>
-          <ArrowBackIosIcon sx={{ height: '15px', color: 'white' }} />
+          <ArrowBackIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
         </span>
 
         {/* Move right button */}
         <span onClick={() => moveTask(taskId, 'right')} className='absolute cursor-pointer flex justify-center right-0 top-1/2 -translate-y-1/2'>
-          <ArrowForwardIosIcon sx={{ height: '15px', color: 'white' }} />
+          <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
         </span>
 
         {/* buttons */}
