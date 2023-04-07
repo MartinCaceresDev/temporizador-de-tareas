@@ -16,9 +16,9 @@ export default defineConfig({
 				'vite.svg',
 			],
 			manifest: {
-				name: 'Temporizador de Tareas',
-				short_name: 'Temporizador',
-				description: 'Organiza tu tiempo para una mayor productividad',
+				name: 'Tasks Countdown Timer',
+				short_name: 'Task Timer',
+				description: 'Organize your time for more productivity.',
 				theme_color: '#ffffff',
 				icons: [
 					{

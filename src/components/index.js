@@ -1,6 +1,5 @@
 export * from './Main';
 export * from './Menu';
-export * from './TasksContainer';
 export * from './Task';
 export * from './NewTask';
 export * from './EditTask';
