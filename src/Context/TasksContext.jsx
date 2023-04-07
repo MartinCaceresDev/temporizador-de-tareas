@@ -49,20 +49,33 @@ export const TasksContextProvider = ({ children }) => {
     dispatch({ type: actions.deleteTask, payload: tasksForDelete });
   };
 
-  const reorderTasks = (tasks) => {
-    handleLocalStorage({ tasks, speechAlertOn: state.speechAlertOn })
-    dispatch({ type: actions.reorderTasks, payload: tasks })
-  };
-
   const toggleSpeechAlert = () => {
     updateFromLocalStorage(dispatch);
     handleLocalStorage({ tasks: state.tasks, speechAlertOn: !state.speechAlertOn });
     dispatch({ type: actions.toggleSpeechAlarm });
   };
 
+  const moveTask = (taskId, direction) => {
+
+    const taskIndex = state.tasks.findIndex(task => task.taskId === taskId);
+
+    if ((taskIndex === 0 && direction === 'left') || (taskIndex === state.tasks.length - 1 && direction === 'right')) return;
+
+    const taskToReorder = { ...state.tasks.find(task => task.taskId === taskId) };
+    const tempTasks = state.tasks.filter(task => task.taskId !== taskId);
+
+    if (direction === 'left') {
+      tempTasks.splice(taskIndex - 1, 0, taskToReorder);
+    } else if (direction === 'right') {
+      tempTasks.splice(taskIndex + 1, 0, taskToReorder);
+    }
+    dispatch({ type: actions.reorderTask, payload: tempTasks });
+    handleLocalStorage({ tasks: tempTasks, speechAlertOn: state.speechAlertOn });
+  };
+
   return (
     <TasksContext.Provider value={
-      { toggleCreatingTask, addNewTask, editTask, updateTask, deleteTask, toggleSpeechAlert, reorderTasks, dispatch, ...state }
+      { toggleCreatingTask, addNewTask, editTask, updateTask, deleteTask, toggleSpeechAlert, moveTask, dispatch, ...state }
     }>
       <div className='relative'>
         {children}

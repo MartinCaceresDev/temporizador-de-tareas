@@ -45,13 +45,13 @@ export const taskReducer = (state, { type, payload }) => {
 				...state,
 				speechAlertOn: !state.speechAlertOn,
 			};
-		
-		case 'REORDER_TASKS':
+
+		case 'REORDER_TASK':
 			return {
 				...state,
-				tasks: payload
+				tasks: payload,
 			}
-
+		
 		default:
 			return state;
 	}

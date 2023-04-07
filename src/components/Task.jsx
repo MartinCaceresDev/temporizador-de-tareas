@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 import { useTasksContext } from "../hooks";
 import { calculateTime, initialSecondsTime, intervalHandler, updateTaskInStorage } from "../utils";
 import { Alert, TaskButtons } from './'
@@ -11,7 +15,7 @@ export const Task = ({
   hours: hoursLS, minutes: minutesLS, seconds: secondsLS, activeTimer
 }) => {
 
-  const { deleteTask, editTask, speechAlertOn, creatingTask } = useTasksContext();
+  const { deleteTask, editTask, speechAlertOn, creatingTask, moveTask } = useTasksContext();
 
   const [hours, setHours] = useState(hoursLS !== initialHours ? hoursLS : initialHours);
   const [minutes, setMinutes] = useState(minutesLS !== initialMinutes ? minutesLS : initialMinutes);
@@ -168,6 +172,16 @@ export const Task = ({
             ? '0' + hours : hours}:${minutes < 0
               ? '00' : minutes < 10 ? '0' + minutes : minutes}:${seconds < 0
                 ? '00' : seconds < 10 ? '0' + seconds : seconds}`}
+        </span>
+
+        {/* Move left button */}
+        <span onClick={() => moveTask(taskId, 'left')} className='absolute cursor-pointer flex justify-center left-1 top-1/2 -translate-y-1/2'>
+          <ArrowBackIosIcon sx={{ height: '15px', color: 'white' }} />
+        </span>
+
+        {/* Move right button */}
+        <span onClick={() => moveTask(taskId, 'right')} className='absolute cursor-pointer flex justify-center right-0 top-1/2 -translate-y-1/2'>
+          <ArrowForwardIosIcon sx={{ height: '15px', color: 'white' }} />
         </span>
 
         {/* buttons */}

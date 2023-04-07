@@ -8,5 +8,5 @@ export const actions = {
 	deleteTask: 'DELETE_TASK',
 	toggleSpeechAlarm: 'TOGGLE_SPEECH_ALARM',
 	toggleAlert: 'TOGGLE_ALERT',
-	reorderTasks: 'REORDER_TASKS'
+	reorderTask: 'REORDER_TASK'
 };
