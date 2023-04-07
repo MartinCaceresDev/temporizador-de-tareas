@@ -64,9 +64,9 @@ export const TasksContextProvider = ({ children }) => {
     const taskToReorder = { ...state.tasks.find(task => task.taskId === taskId) };
     const tempTasks = state.tasks.filter(task => task.taskId !== taskId);
 
-    if (direction === 'left') {
+    if (direction === 'left' || direction === 'up') {
       tempTasks.splice(taskIndex - 1, 0, taskToReorder);
-    } else if (direction === 'right') {
+    } else if (direction === 'right' || direction === 'down') {
       tempTasks.splice(taskIndex + 1, 0, taskToReorder);
     }
     dispatch({ type: actions.reorderTask, payload: tempTasks });

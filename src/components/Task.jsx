@@ -4,6 +4,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useTasksContext } from "../hooks";
 import { calculateTime, initialSecondsTime, intervalHandler, updateTaskInStorage } from "../utils";
@@ -36,30 +38,12 @@ export const Task = ({
     if (isActiveTimer) {
       timer = setInterval(() => {
         intervalHandler(setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn);
-        updateTaskInStorage(speechAlertOn, {
-          taskId,
-          hours,
-          minutes,
-          seconds,
-          initialHours,
-          initialMinutes,
-          initialSeconds,
-          activeTimer: false,
-          title
-        });
+        updateTaskInStorage(speechAlertOn,
+          { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
       }, 1000)
     } else {
-      updateTaskInStorage(speechAlertOn, {
-        taskId,
-        hours,
-        minutes,
-        seconds,
-        initialHours,
-        initialMinutes,
-        initialSeconds,
-        activeTimer: false,
-        title
-      });
+      updateTaskInStorage(speechAlertOn,
+        { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
     }
     return () => clearInterval(timer);
   }, [isActiveTimer])
@@ -71,43 +55,23 @@ export const Task = ({
       setHours(hour);
       setMinutes(minute);
       setSeconds(second);
-      updateTaskInStorage(speechAlertOn, {
-        taskId,
-        hours: hour,
-        minutes: minute,
-        seconds: second,
-        initialHours,
-        initialMinutes,
-        initialSeconds,
-        activeTimer: isActiveTimer,
-        title
-      });
+      updateTaskInStorage(speechAlertOn,
+        {
+          taskId, hours: hour, minutes: minute, seconds: second, initialHours, initialMinutes, initialSeconds,
+          activeTimer: isActiveTimer, title
+        });
     }
   }, [secondsTime.sec, isActiveTimer, creatingTask, alertActive]);
 
   // on start/pause/resume button click
   const onTimerClick = () => {
     // update states
-    if (isActiveTimer) {
-      setIsActiveTimer(false);
-      setSecondsTime({ ...secondsTime, present: 0 })
-    } else {
-      setIsActiveTimer(true);
-      setSecondsTime({ ...secondsTime, present: 0 })
-    }
+    isActiveTimer ? setIsActiveTimer(false) : setIsActiveTimer(true);
+    setSecondsTime({ ...secondsTime, present: 0 });
 
     // update local storage
-    updateTaskInStorage(speechAlertOn, {
-      taskId,
-      hours,
-      minutes,
-      seconds,
-      initialHours,
-      initialMinutes,
-      initialSeconds,
-      activeTimer: !isActiveTimer,
-      title
-    });
+    updateTaskInStorage(speechAlertOn,
+      { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: !isActiveTimer, title });
   };
 
   // on reset button click
@@ -119,17 +83,12 @@ export const Task = ({
     setSeconds(initialSeconds);
 
     // update local storage
-    updateTaskInStorage(speechAlertOn, {
-      taskId,
-      hours: initialHours,
-      minutes: initialMinutes,
-      seconds: initialSeconds,
-      initialHours,
-      initialMinutes,
-      initialSeconds,
-      isActiveTimer: false,
-      title
-    });
+    updateTaskInStorage(speechAlertOn,
+      {
+        taskId, hours: initialHours, minutes: initialMinutes, seconds: initialSeconds,
+        initialHours, initialMinutes, initialSeconds, isActiveTimer: false, title
+      });
+
     setSecondsTime({ present: 0, sec: initialSecondsTime({ initialHours, initialMinutes, initialSeconds }) });
   };
 
@@ -147,24 +106,18 @@ export const Task = ({
       {/* display alert when time is finished */}
       {alertActive && <Alert setAlertActive={setAlertActive} title={title} />}
 
-      <div className={`bg-stone-900 flex flex-col border rounded p-2 items-center relative ${(hours <= 0 && minutes <= 0 && seconds <= 0) && 'bg-green-900/90'}`}>
+      <div className={`bg-stone-900 group flex flex-col border rounded p-2 items-center relative ${(hours <= 0 && minutes <= 0 && seconds <= 0) && 'bg-green-900/90'}`}>
         <div className='flex justify-between w-full'>
 
           {/* edit icon */}
-          <span onClick={onEdit} className='text-green-500 cursor-pointer text-xs hover:text-green-300 transition-all'>
-            <EditIcon />
-          </span>
+          <span onClick={onEdit} className='text-green-500 cursor-pointer text-xs hover:text-green-300 transition-all'><EditIcon /></span>
 
           {/* delete icon */}
-          <span onClick={onTaskDelete} className='text-red-500 cursor-pointer text-xs hover:text-red-300 transition-all'>
-            <DeleteIcon />
-          </span>
+          <span onClick={onTaskDelete} className='text-red-500 cursor-pointer text-xs hover:text-red-300 transition-all'><DeleteIcon /></span>
         </div>
 
         {/* task title */}
-        <span className='text-lime-400 font-medium text-center text-lg mt-2.5 capitalize'>
-          {title}
-        </span>
+        <span className='text-lime-400 font-medium text-center text-lg mt-2.5 capitalize'>{title}</span>
 
         {/* timer */}
         <span className='text-white mb-4 mt-2 text-center text-2xl'>
@@ -174,15 +127,27 @@ export const Task = ({
                 ? '00' : seconds < 10 ? '0' + seconds : seconds}`}
         </span>
 
-        {/* Move left button */}
-        <span onClick={() => moveTask(taskId, 'left')} className='absolute cursor-pointer flex justify-center left-1 top-1/2 -translate-y-1/2'>
-          <ArrowBackIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
-        </span>
-
-        {/* Move right button */}
-        <span onClick={() => moveTask(taskId, 'right')} className='absolute cursor-pointer flex justify-center right-0 top-1/2 -translate-y-1/2'>
-          <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
-        </span>
+        {/* change task order */}
+        {screen.width > 639
+          ? (
+            <>
+              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer flex justify-center left-1 top-1/2 -translate-y-1/2'>
+                <ArrowBackIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
+              </span>
+              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer flex justify-center right-0 top-1/2 -translate-y-1/2'>
+                <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
+              </span>
+            </>)
+          : (
+            <div className='absolute right-0 top-1/2 -translate-y-1/2 flex flex-col justify-between items-center'>
+              <span onClick={() => moveTask(taskId, 'up')} className='text-white'>
+                <KeyboardArrowUpIcon sx={{ opacity: '0.5' }} />
+              </span>
+              <span onClick={() => moveTask(taskId, 'down')} className='text-white'>
+                <KeyboardArrowDownIcon sx={{ opacity: '0.5' }} />
+              </span>
+            </div>)
+        }
 
         {/* buttons */}
         <TaskButtons utils={{
