@@ -27,7 +27,7 @@ export default defineConfig({
 						type: 'image/png',
 					},
 					{
-						src: '/512x512-logo-github-icon-35.png',
+						src: '/icono-192x192.png',
 						sizes: '512x512',
 						type: 'image/png',
 					},
