@@ -131,10 +131,10 @@ export const Task = ({
         {screen.width > 639
           ? (
             <>
-              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer flex justify-center left-1 top-1/2 -translate-y-1/2'>
+              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer left-1 top-1/2 -translate-y-1/2'>
                 <ArrowBackIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
               </span>
-              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer flex justify-center right-0 top-1/2 -translate-y-1/2'>
+              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer right-0 top-1/2 -translate-y-1/2'>
                 <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
               </span>
             </>)

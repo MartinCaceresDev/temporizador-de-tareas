@@ -10,11 +10,7 @@ export default defineConfig({
 			devOptions: {
 				enabled: true,
 			},
-			includeAssets: [
-				'vite.svg',
-				'512x512-logo-github-icon-35.png',
-				'vite.svg',
-			],
+			includeAssets: [],
 			manifest: {
 				name: 'Tasks Countdown Timer',
 				short_name: 'Task Timer',

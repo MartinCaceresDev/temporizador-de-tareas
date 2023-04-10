@@ -5,11 +5,11 @@
  */
 
 export const speechAlert = (isAlertActive) => {
-	let content = 'Task time is finished. Task time is finished. Task time is finished.';
-
-	const alarm = new SpeechSynthesisUtterance(content);
-	alarm.voice = speechSynthesis.getVoices()[4];
-
+	const alarm = new SpeechSynthesisUtterance();
+	const content = 'Task time is finished. Task time is finished. Task time is finished.';
+	alarm.text = content;
+	alarm.lang='en-US';
+	
 	if (isAlertActive && !speechSynthesis.speaking) {
 		speechSynthesis.speak(alarm);
 	} else if (!isAlertActive && speechSynthesis.speaking) {

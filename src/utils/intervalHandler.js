@@ -10,9 +10,7 @@
 
 import { speechAlert } from "./";
 
-export const intervalHandler = (
-  setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn
-)=>{
+export const intervalHandler = (setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn)=>{
   setSecondsTime(prev => {
     if (prev.sec > 0) {
       const presentTime = Math.floor((Date.now() / 1000));
