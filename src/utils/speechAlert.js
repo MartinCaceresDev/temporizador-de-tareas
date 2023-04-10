@@ -6,7 +6,7 @@
 
 export const speechAlert = (isAlertActive) => {
 	const alarm = new SpeechSynthesisUtterance();
-	const content = 'Task time is finished. Task time is finished. Task time is finished.';
+	const content = 'Task time is finished. Task time is finished.';
 	alarm.text = content;
 	alarm.lang='en-US';
 	
