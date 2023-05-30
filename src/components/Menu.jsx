@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import AlarmOffIcon from '@mui/icons-material/AlarmOff';
-import { useTasksContext } from "../hooks/useTasksContext"
+import { useTasksContext } from "../hooks/useTasksContext";
 
 export const Menu = () => {
 
@@ -16,14 +16,14 @@ export const Menu = () => {
       </span>
 
       {/* Add task icon */}
-      <span onClick={toggleCreatingTask} className='font-medium text-center cursor-pointer border rounded-full py-1.5 px-3 bg-fuchsia-700 text-white hover:bg-fuchsia-900 hover:shadow-md hover:shadow-slate-400 active:bg-orange-600 transition-all'>
+      <span onClick={toggleCreatingTask} className='font-medium flex justify-center items-center cursor-pointer border rounded-full py-1.5 px-3 bg-fuchsia-700 text-white hover:bg-fuchsia-900 hover:shadow-md hover:shadow-slate-400 active:bg-orange-600 transition-all'>
         <AddIcon />
       </span>
 
       {/* Toggle speech alert */}
-      <span onClick={toggleSpeechAlert} className={`cursor-pointer text-base absolute right-4 bottom-2 mt-1 ${speechAlertOn ? 'text-green-600' : 'text-red-600'}`}>
+      <span onClick={toggleSpeechAlert} className={`cursor-pointer text-base absolute right-4 bottom-2 mt-1 ${speechAlertOn ? 'text-green-600' : 'text-red-600'} hover:text-yellow-600`}>
         {speechAlertOn ? <AlarmOnIcon /> : <AlarmOffIcon />}
       </span>
     </div>
-  )
-}
+  );
+};

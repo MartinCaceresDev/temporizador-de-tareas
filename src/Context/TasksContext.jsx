@@ -4,7 +4,7 @@ import { taskReducer, actions, initialState, handleLocalStorage, updateFromLocal
 // useReducer init function - gets data from local storage
 const init = () => {
   const { tasks, speechAlertOn } = handleLocalStorage();
-  return { tasks, speechAlertOn }
+  return { tasks, speechAlertOn };
 };
 
 export const TasksContext = createContext();
@@ -15,7 +15,7 @@ export const TasksContextProvider = ({ children }) => {
 
   const toggleCreatingTask = () => {
     updateFromLocalStorage(dispatch);
-    handleLocalStorage({ tasks: state.tasks, speechAlertOn: state.speechAlertOn })
+    handleLocalStorage({ tasks: state.tasks, speechAlertOn: state.speechAlertOn });
     dispatch({ type: actions.toggleCreatingTask });
   };
 
@@ -26,18 +26,18 @@ export const TasksContextProvider = ({ children }) => {
 
   const editTask = (data) => {
     updateFromLocalStorage(dispatch);
-    dispatch({ type: actions.editingTask, payload: data })
+    dispatch({ type: actions.editingTask, payload: data });
   };
 
   const updateTask = (task) => {
     const taskCopy = state.tasks.concat();
-    let tempTasks = []
+    let tempTasks = [];
     // iterate and update the correct task
     taskCopy.forEach(taskItem => {
       if (taskItem.taskId === task.taskId) {
         taskItem = { ...task };
       }
-      tempTasks.push(taskItem)
+      tempTasks.push(taskItem);
     });
     dispatch({ type: actions.updateTask, payload: tempTasks });
     handleLocalStorage({ tasks: tempTasks, speechAlertOn: state.speechAlertOn });
@@ -57,12 +57,18 @@ export const TasksContextProvider = ({ children }) => {
 
   const moveTask = (taskId, direction) => {
 
-    const taskIndex = state.tasks.findIndex(task => task.taskId === taskId);
+    const storage = handleLocalStorage(); // test
 
-    if ((taskIndex === 0 && direction === 'left') || (taskIndex === state.tasks.length - 1 && direction === 'right')) return;
+    // const taskIndex = state.tasks.findIndex(task => task.taskId === taskId);
+    const taskIndex = storage.tasks.findIndex(task => task.taskId === taskId);
 
-    const taskToReorder = { ...state.tasks.find(task => task.taskId === taskId) };
-    const tempTasks = state.tasks.filter(task => task.taskId !== taskId);
+    // if ((taskIndex === 0 && direction === 'left') || (taskIndex === state.tasks.length - 1 && direction === 'right')) return;
+    if ((taskIndex === 0 && direction === 'left') || (taskIndex === storage.tasks.length - 1 && direction === 'right')) return;
+
+    // const taskToReorder = { ...state.tasks.find(task => task.taskId === taskId) };
+    const taskToReorder = { ...storage.tasks.find(task => task.taskId === taskId) };
+    // const tempTasks = state.tasks.filter(task => task.taskId !== taskId);
+    const tempTasks = storage.tasks.filter(task => task.taskId !== taskId);
 
     if (direction === 'left' || direction === 'up') {
       tempTasks.splice(taskIndex - 1, 0, taskToReorder);
@@ -81,5 +87,5 @@ export const TasksContextProvider = ({ children }) => {
         {children}
       </div>
     </TasksContext.Provider>
-  )
-}
+  );
+};

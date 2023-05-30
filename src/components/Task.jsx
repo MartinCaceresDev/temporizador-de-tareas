@@ -9,7 +9,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useTasksContext } from "../hooks";
 import { calculateTime, initialSecondsTime, intervalHandler, updateTaskInStorage } from "../utils";
-import { Alert, TaskButtons } from './'
+import { Alert, TaskButtons } from './';
 
 
 export const Task = ({
@@ -40,13 +40,13 @@ export const Task = ({
         intervalHandler(setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn);
         updateTaskInStorage(speechAlertOn,
           { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
-      }, 1000)
+      }, 1000);
     } else {
       updateTaskInStorage(speechAlertOn,
         { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
     }
     return () => clearInterval(timer);
-  }, [isActiveTimer])
+  }, [isActiveTimer]);
 
   // Convert total seconds to hours, minutes and seconds, and update local storage.
   useEffect(() => {
@@ -107,7 +107,7 @@ export const Task = ({
       {alertActive && <Alert setAlertActive={setAlertActive} title={title} />}
 
       <div className={`bg-stone-900 group flex flex-col border rounded p-2 items-center relative ${(hours <= 0 && minutes <= 0 && seconds <= 0) && 'bg-green-900/90'}`}>
-        <div className='flex justify-between w-full'>
+        <div className='flex justify-between w-full sm:invisible sm:group-hover:visible transition-all'>
 
           {/* edit icon */}
           <span onClick={onEdit} className='text-green-500 cursor-pointer text-xs hover:text-green-300 transition-all'><EditIcon /></span>
@@ -131,15 +131,15 @@ export const Task = ({
         {screen.width > 639
           ? (
             <>
-              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer left-1 top-1/2 -translate-y-1/2'>
-                <ArrowBackIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
+              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer left-1 top-1/2 -translate-y-1/2 transition-all'>
+                <ArrowBackIosIcon sx={{ height: '15px', color: 'white', transition: 'all 200ms', opacity: '0.5', '&:hover': { opacity: 1, height: '20px' } }} />
               </span>
-              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer right-0 top-1/2 -translate-y-1/2'>
-                <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', opacity: '0.5' }} />
+              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer right-0 top-1/2 -translate-y-1/2 transition-all'>
+                <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', transition: 'all 200ms', opacity: '0.5', '&:hover': { opacity: 1, height: '20px' } }} />
               </span>
             </>)
           : (
-            <div className='absolute right-0 top-1/2 -translate-y-1/2 flex flex-col justify-between items-center'>
+            <div className='absolute right-0 top-1/3 flex flex-col justify-between items-center'>
               <span onClick={() => moveTask(taskId, 'up')} className='text-white'>
                 <KeyboardArrowUpIcon sx={{ opacity: '0.5' }} />
               </span>
@@ -156,5 +156,5 @@ export const Task = ({
         }} />
       </div>
     </>
-  )
-}
+  );
+};
