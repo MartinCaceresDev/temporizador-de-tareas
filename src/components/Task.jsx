@@ -17,7 +17,7 @@ export const Task = ({
   title, initialHours, initialMinutes, initialSeconds, taskId,
   hours: hoursLS, minutes: minutesLS, seconds: secondsLS, activeTimer
 }) => {
-  const { deleteTask, editTask, speechAlertOn, creatingTask, moveTask } = useTasksContext();
+  const { deleteTask, editTask, speechAlertOn, moveTask } = useTasksContext();
 
   const [hours, setHours] = useState(hoursLS !== initialHours ? hoursLS : initialHours);
   const [minutes, setMinutes] = useState(minutesLS !== initialMinutes ? minutesLS : initialMinutes);
