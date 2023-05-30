@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,7 +17,6 @@ export const Task = ({
   title, initialHours, initialMinutes, initialSeconds, taskId,
   hours: hoursLS, minutes: minutesLS, seconds: secondsLS, activeTimer
 }) => {
-
   const { deleteTask, editTask, speechAlertOn, creatingTask, moveTask } = useTasksContext();
 
   const [hours, setHours] = useState(hoursLS !== initialHours ? hoursLS : initialHours);
@@ -39,7 +39,7 @@ export const Task = ({
       timer = setInterval(() => {
         intervalHandler(setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn);
         updateTaskInStorage(speechAlertOn,
-          { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
+          { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: true, title });
       }, 1000);
     } else {
       updateTaskInStorage(speechAlertOn,
@@ -61,7 +61,7 @@ export const Task = ({
           activeTimer: isActiveTimer, title
         });
     }
-  }, [secondsTime.sec, isActiveTimer, creatingTask, alertActive]);
+  }, [secondsTime.sec, isActiveTimer, alertActive]);
 
   // on start/pause/resume button click
   const onTimerClick = () => {
@@ -97,9 +97,10 @@ export const Task = ({
 
   // on edit click
   const onEdit = () => {
-    setIsActiveTimer(false);
+    isActiveTimer && onTimerClick();
     editTask({ taskId, title, hours, minutes, seconds });
   };
+
 
   return (
     <>
@@ -157,4 +158,17 @@ export const Task = ({
       </div>
     </>
   );
+};
+
+
+Task.propTypes = {
+  title: PropTypes.string.isRequired,
+  initialHours: PropTypes.number.isRequired,
+  initialMinutes: PropTypes.number.isRequired,
+  initialSeconds: PropTypes.number.isRequired,
+  taskId: PropTypes.string.isRequired,
+  hours: PropTypes.number.isRequired,
+  minutes: PropTypes.number.isRequired,
+  seconds: PropTypes.number.isRequired,
+  activeTimer: PropTypes.bool.isRequired,
 };

@@ -13,13 +13,6 @@ export const taskReducer = (state, { type, payload }) => {
 				speechAlertOn: payload?.speechAlertOn || false,
 			};
 
-		case 'ADD_NEW_TASK':
-			return {
-				...state,
-				tasks: state.tasks.concat(payload),
-				creatingTask: false,
-			};
-
 		case 'IS_EDITING_TASK':
 			return {
 				...state,
@@ -30,14 +23,7 @@ export const taskReducer = (state, { type, payload }) => {
 		case 'UPDATE_TASK':
 			return {
 				...state,
-				tasks: payload,
 				editingTask: false,
-			};
-
-		case 'DELETE_TASK':
-			return {
-				...state,
-				tasks: payload,
 			};
 
 		case 'TOGGLE_SPEECH_ALARM':

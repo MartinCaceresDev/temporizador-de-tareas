@@ -1,7 +1,7 @@
-import { useRegisterSW } from 'virtual:pwa-register/react'
-import { EditTask, Main, NewTask, UpdatingPWA } from './components'
-import { useTasksContext } from './hooks/useTasksContext'
-import './index.css'
+import { useRegisterSW } from 'virtual:pwa-register/react';
+import { EditTask, Main, NewTask, UpdatingPWA } from './components';
+import { useTasksContext } from './hooks/useTasksContext';
+import './index.css';
 
 
 export default function App() {
@@ -10,10 +10,10 @@ export default function App() {
     needRefresh: [needRefresh],
   } = useRegisterSW({
     onRegistered(r) {
-      console.log('SW Registered: ' + r)
+      console.log('SW Registered: ' + r);
     },
     onRegisterError(error) {
-      console.log('SW registration error', error)
+      console.log('SW registration error', error);
     },
   });
 
@@ -28,5 +28,5 @@ export default function App() {
         && <UpdatingPWA />
       }
     </div>
-  )
+  );
 }
