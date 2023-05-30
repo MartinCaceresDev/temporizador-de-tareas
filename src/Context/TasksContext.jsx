@@ -57,17 +57,13 @@ export const TasksContextProvider = ({ children }) => {
 
   const moveTask = (taskId, direction) => {
 
-    const storage = handleLocalStorage(); // test
+    const storage = handleLocalStorage();
 
-    // const taskIndex = state.tasks.findIndex(task => task.taskId === taskId);
     const taskIndex = storage.tasks.findIndex(task => task.taskId === taskId);
 
-    // if ((taskIndex === 0 && direction === 'left') || (taskIndex === state.tasks.length - 1 && direction === 'right')) return;
     if ((taskIndex === 0 && direction === 'left') || (taskIndex === storage.tasks.length - 1 && direction === 'right')) return;
 
-    // const taskToReorder = { ...state.tasks.find(task => task.taskId === taskId) };
     const taskToReorder = { ...storage.tasks.find(task => task.taskId === taskId) };
-    // const tempTasks = state.tasks.filter(task => task.taskId !== taskId);
     const tempTasks = storage.tasks.filter(task => task.taskId !== taskId);
 
     if (direction === 'left' || direction === 'up') {
