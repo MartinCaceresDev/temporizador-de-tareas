@@ -5,10 +5,7 @@ import './index.css';
 
 
 export default function App() {
-  const {
-    offlineReady: [offlineReady],
-    needRefresh: [needRefresh],
-  } = useRegisterSW({
+  const { needRefresh: [needRefresh] } = useRegisterSW({
     onRegistered(r) {
       console.log('SW Registered: ' + r);
     },
@@ -24,9 +21,7 @@ export default function App() {
       <Main />
       {creatingTask && <NewTask />}
       {editingTask && <EditTask />}
-      {(offlineReady || needRefresh)
-        && <UpdatingPWA />
-      }
+      {needRefresh && <UpdatingPWA />}
     </div>
   );
 }
