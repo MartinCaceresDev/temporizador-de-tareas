@@ -17,7 +17,7 @@ export const UpdatingPWA = () => {
   const close = () => setNeedRefresh(false);
 
   return (
-    <div className='absolute bg-gray-300 top-0 left-0 max-w-full sm:w-max h-min p-8 border-black border rounded-lg'>
+    <div className='absolute flex flex-col items-center justify-evenly bg-gray-300 top-0 left-0 max-w-full sm:w-max h-min p-8 border-black border rounded-lg'>
       <span className='font-semibold'>There is a new version available.</span>
       <div className='flex justify-evenly'>
         <button
