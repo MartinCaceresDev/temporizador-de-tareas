@@ -3,7 +3,6 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 export const UpdatingPWA = () => {
 
   const {
-    offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
