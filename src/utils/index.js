@@ -8,3 +8,4 @@ export * from './initialSecondsTime';
 export * from './updateTaskInStorage';
 export * from './updateFromLocalStorage';
 export * from './intervalHandler';
+export * from './handleMoveTask';

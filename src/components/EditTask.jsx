@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { useTasksContext } from "../hooks"
+import { useTasksContext } from "../Context/TasksContext";
 
 
 export const EditTask = () => {
@@ -46,7 +46,7 @@ export const EditTask = () => {
 
   useEffect(() => {
     titleRef.current.focus();
-  }, [])
+  }, []);
 
   return (
     <div className='flex justify-center lg:items-center h-full w-full absolute z-10 bg-black/50'>
@@ -120,5 +120,5 @@ export const EditTask = () => {
         </div>
       </article>
     </div>
-  )
-}
+  );
+};

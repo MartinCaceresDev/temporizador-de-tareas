@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import AlarmOffIcon from '@mui/icons-material/AlarmOff';
-import { useTasksContext } from "../hooks/useTasksContext";
+import { useTasksContext } from '../Context/TasksContext';
 
 export const Menu = () => {
 

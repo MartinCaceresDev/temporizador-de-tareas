@@ -1,5 +1,5 @@
-import { useTasksContext } from "../hooks";
-import { Menu, TasksContainer } from "./"
+import { useTasksContext } from "../Context/TasksContext";
+import { Menu, TasksContainer } from "./";
 
 export const Main = () => {
 
@@ -10,5 +10,5 @@ export const Main = () => {
       <Menu />
       <TasksContainer />
     </main>
-  )
-}
+  );
+};

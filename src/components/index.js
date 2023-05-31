@@ -7,3 +7,4 @@ export * from './UpdatingPWA';
 export * from './Alert';
 export * from './TaskButtons';
 export * from './TasksContainer';
+export * from './TaskOrder';

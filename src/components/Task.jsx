@@ -1,23 +1,18 @@
 import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import { useTasksContext } from "../hooks";
+import { useTasksContext } from "../Context/TasksContext";
 import { calculateTime, initialSecondsTime, intervalHandler, updateTaskInStorage } from "../utils";
-import { Alert, TaskButtons } from './';
+import { Alert, TaskButtons, TaskOrder } from './';
 
 
 export const Task = ({
   title, initialHours, initialMinutes, initialSeconds, taskId,
   hours: hoursLS, minutes: minutesLS, seconds: secondsLS, activeTimer
 }) => {
-  const { deleteTask, editTask, speechAlertOn, moveTask } = useTasksContext();
+  const { deleteTask, editTask, speechAlertOn } = useTasksContext();
 
   const [hours, setHours] = useState(hoursLS !== initialHours ? hoursLS : initialHours);
   const [minutes, setMinutes] = useState(minutesLS !== initialMinutes ? minutesLS : initialMinutes);
@@ -32,19 +27,14 @@ export const Task = ({
     sec: initialSecondsTime(null, hoursLS, minutesLS, secondsLS)
   });
 
-  // as time passes we update total seconds and update local storage
+  // as seconds pass we update total seconds and local storage
   let timer;
   useEffect(() => {
     if (isActiveTimer) {
-      timer = setInterval(() => {
-        intervalHandler(setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn);
-        updateTaskInStorage(speechAlertOn,
-          { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: true, title });
-      }, 1000);
-    } else {
-      updateTaskInStorage(speechAlertOn,
-        { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: false, title });
+      timer = setInterval(() => intervalHandler(setSecondsTime, setIsActiveTimer, setAlertActive, speechAlertOn), 1000);
     }
+    updateTaskInStorage(speechAlertOn,
+      { taskId, hours, minutes, seconds, initialHours, initialMinutes, initialSeconds, activeTimer: isActiveTimer, title });
     return () => clearInterval(timer);
   }, [isActiveTimer]);
 
@@ -55,11 +45,10 @@ export const Task = ({
       setHours(hour);
       setMinutes(minute);
       setSeconds(second);
-      updateTaskInStorage(speechAlertOn,
-        {
-          taskId, hours: hour, minutes: minute, seconds: second, initialHours, initialMinutes, initialSeconds,
-          activeTimer: isActiveTimer, title
-        });
+      updateTaskInStorage(speechAlertOn, {
+        taskId, hours: hour, minutes: minute, seconds: second,
+        initialHours, initialMinutes, initialSeconds, activeTimer: isActiveTimer, title
+      });
     }
   }, [secondsTime.sec, isActiveTimer, alertActive]);
 
@@ -81,15 +70,13 @@ export const Task = ({
     setHours(initialHours);
     setMinutes(initialMinutes);
     setSeconds(initialSeconds);
+    setSecondsTime({ present: 0, sec: initialSecondsTime({ initialHours, initialMinutes, initialSeconds }) });
 
     // update local storage
-    updateTaskInStorage(speechAlertOn,
-      {
-        taskId, hours: initialHours, minutes: initialMinutes, seconds: initialSeconds,
-        initialHours, initialMinutes, initialSeconds, isActiveTimer: false, title
-      });
-
-    setSecondsTime({ present: 0, sec: initialSecondsTime({ initialHours, initialMinutes, initialSeconds }) });
+    updateTaskInStorage(speechAlertOn, {
+      taskId, hours: initialHours, minutes: initialMinutes, seconds: initialSeconds,
+      initialHours, initialMinutes, initialSeconds, isActiveTimer: false, title
+    });
   };
 
   // on delete click
@@ -100,7 +87,6 @@ export const Task = ({
     isActiveTimer && onTimerClick();
     editTask({ taskId, title, hours, minutes, seconds });
   };
-
 
   return (
     <>
@@ -128,47 +114,14 @@ export const Task = ({
                 ? '00' : seconds < 10 ? '0' + seconds : seconds}`}
         </span>
 
-        {/* change task order */}
-        {screen.width > 639
-          ? (
-            <>
-              <span onClick={() => moveTask(taskId, 'left')} className='absolute hidden group-hover:inline cursor-pointer left-1 top-1/2 -translate-y-1/2 transition-all'>
-                <ArrowBackIosIcon sx={{ height: '15px', color: 'white', transition: 'all 200ms', opacity: '0.5', '&:hover': { opacity: 1, height: '20px' } }} />
-              </span>
-              <span onClick={() => moveTask(taskId, 'right')} className='absolute hidden group-hover:inline cursor-pointer right-0 top-1/2 -translate-y-1/2 transition-all'>
-                <ArrowForwardIosIcon sx={{ height: '15px', color: 'white', transition: 'all 200ms', opacity: '0.5', '&:hover': { opacity: 1, height: '20px' } }} />
-              </span>
-            </>)
-          : (
-            <div className='absolute right-0 top-1/3 flex flex-col justify-between items-center'>
-              <span onClick={() => moveTask(taskId, 'up')} className='text-white'>
-                <KeyboardArrowUpIcon sx={{ opacity: '0.5' }} />
-              </span>
-              <span onClick={() => moveTask(taskId, 'down')} className='text-white'>
-                <KeyboardArrowDownIcon sx={{ opacity: '0.5' }} />
-              </span>
-            </div>)
-        }
+        {/* change task order buttons */}
+        <TaskOrder taskId={taskId} />
 
         {/* buttons */}
         <TaskButtons utils={{
-          onResetTime, onTimerClick, isActiveTimer, hours,
-          initialHours, minutes, initialMinutes, seconds, initialSeconds
+          onResetTime, onTimerClick, isActiveTimer, hours, initialHours, minutes, initialMinutes, seconds, initialSeconds
         }} />
       </div>
     </>
   );
-};
-
-
-Task.propTypes = {
-  title: PropTypes.string.isRequired,
-  initialHours: PropTypes.number.isRequired,
-  initialMinutes: PropTypes.number.isRequired,
-  initialSeconds: PropTypes.number.isRequired,
-  taskId: PropTypes.string.isRequired,
-  hours: PropTypes.number.isRequired,
-  minutes: PropTypes.number.isRequired,
-  seconds: PropTypes.number.isRequired,
-  activeTimer: PropTypes.bool.isRequired,
 };

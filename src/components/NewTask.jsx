@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from 'uuid';
 import CloseIcon from '@mui/icons-material/Close';
-import { useTasksContext } from "../hooks"
+import { useTasksContext } from "../Context/TasksContext";
 
 
 export const NewTask = () => {
@@ -28,7 +28,7 @@ export const NewTask = () => {
   const validateMinutes = (e) => {
     if (isNaN(e.target.value)) return;
     if (e.target.value.length && Number(e.target.value) <= 59 && Number(e.target.value) >= 0) {
-      setInitialMinutes(Number(e.target.value))
+      setInitialMinutes(Number(e.target.value));
     } else {
       setInitialMinutes('');
     }
@@ -53,7 +53,7 @@ export const NewTask = () => {
 
   useEffect(() => {
     titleRef.current.focus();
-  }, [])
+  }, []);
 
   return (
     <div className='flex justify-center items-center h-full w-full absolute z-10 bg-black/50'>
@@ -127,5 +127,5 @@ export const NewTask = () => {
         </div>
       </article>
     </div>
-  )
-}
+  );
+};

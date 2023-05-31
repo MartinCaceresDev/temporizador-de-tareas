@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Task } from ".";
-import { useTasksContext } from "../hooks";
+import { useTasksContext } from '../Context/TasksContext';
 
 export const TasksContainer = () => {
 
@@ -13,5 +13,5 @@ export const TasksContainer = () => {
         : <span className='text-lime-400 text-center text-xl'>There are no tasks</span>
       }
     </div>
-  )
-}
+  );
+};

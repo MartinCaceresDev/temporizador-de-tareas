@@ -1,6 +1,6 @@
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { EditTask, Main, NewTask, UpdatingPWA } from './components';
-import { useTasksContext } from './hooks/useTasksContext';
+import { useTasksContext } from './Context/TasksContext';
 import './index.css';
 
 

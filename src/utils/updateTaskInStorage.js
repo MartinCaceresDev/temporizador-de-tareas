@@ -8,7 +8,7 @@ import { handleLocalStorage } from "./";
  */
 
 export const updateTaskInStorage = (speechAlertOn, task) => {
-  const {tasks: taskCopy} = handleLocalStorage();
+  const { tasks: taskCopy } = handleLocalStorage();
   let tempTasks = []
   taskCopy.forEach(taskItem => {
     if (taskItem.taskId === task.taskId) {
