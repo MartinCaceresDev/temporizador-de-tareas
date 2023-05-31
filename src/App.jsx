@@ -25,7 +25,7 @@ export default function App() {
       {creatingTask && <NewTask />}
       {editingTask && <EditTask />}
       {(offlineReady || needRefresh)
-        && <UpdatingPWA close={close} />
+        && <UpdatingPWA />
       }
     </div>
   );
