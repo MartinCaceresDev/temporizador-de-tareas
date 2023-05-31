@@ -27,7 +27,10 @@ export const UpdatingPWA = () => {
           >
             Update
           </button>
-          <button onClick={close} className='select-none border text-white rounded-full cursor-pointer bg-gray-500 hover:bg-gray-700 font-semibold py-1.5 px-3.5 transition-all'>
+          <button
+            onClick={close}
+            className='select-none border text-white rounded-full cursor-pointer bg-gray-500 hover:bg-gray-700 font-semibold py-1.5 px-3.5 transition-all'
+          >
             Close
           </button>
         </div>
