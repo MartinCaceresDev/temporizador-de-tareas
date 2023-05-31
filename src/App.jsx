@@ -19,12 +19,6 @@ export default function App() {
 
   const { creatingTask, editingTask } = useTasksContext();
 
-  const close = (setOfflineReady, setNeedRefresh) => {
-    setOfflineReady(false);
-    setNeedRefresh(false);
-  };
-
-
   return (
     <div className='bg-sky-800 w-full h-full flex justify-center items-center relative min-h-screen min-w-full overflow-x-hidden'>
       <Main />
